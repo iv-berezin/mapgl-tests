@@ -1,1 +1,0 @@
-{"version":3,"file":"protoLoader.js","sourceRoot":"","sources":["../../../tools/webpack-loaders/protoLoader.js"],"names":[],"mappings":";AAAA,MAAM,MAAM,GAAG,OAAO,CAAC,yBAAyB,CAAC,CAAC;AAClD,MAAM,OAAO,GAAG,OAAO,CAAC,aAAa,CAAC,CAAC;AAEvC,MAAM,CAAC,OAAO,GAAG,UAAU,YAAY;IACnC,OAAO,OAAO,CAAC,GAAG,CAAC,MAAM,CAAC,KAAK,CAAC,YAAY,CAAC,CAAC,CAAC;AACnD,CAAC,CAAC"}
