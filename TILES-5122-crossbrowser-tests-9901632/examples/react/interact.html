@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>2GIS Map API</title>
+        <meta
+            name="description"
+            content="Example of interactions with a map in React application"
+        />
+        <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script src="https://mapgl.2gis.com/api/js"></script>
+        <!-- Don't use this in production: -->
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <style>
+            html,
+            body,
+            #root {
+                margin: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="text/babel">
+            // If you view this demo in jsfiddle do not forget to change language in js panel from "javascript" to "Babel + JSX"
+            const MapContext = React.createContext([undefined, () => {}]);
+
+            const MapProvider = (props) => {
+                const [mapInstance, setMapInstance] = React.useState();
+
+                return (
+                    <MapContext.Provider value={[mapInstance, setMapInstance]}>
+                        {props.children}
+                    </MapContext.Provider>
+                );
+            };
+
+            const MapWrapper = React.memo(
+                () => {
+                    return <div id='map-container' style={{ width: '100%', height: '100%' }}></div>;
+                },
+                () => true,
+            );
+            const MapGL = () => {
+                const [_, setMapInstance] = React.useContext(MapContext);
+
+                React.useEffect(() => {
+                    const map = new mapgl.Map('map-container', {
+                        center: [55.31878, 25.23584],
+                        zoom: 13,
+                        key: 'Your API access key',
+                    });
+
+                    setMapInstance(map);
+
+                    // Destroy the map, if Map component is going to be unmounted
+                    return () => map.destroy();
+                }, []);
+
+                return (
+                    <div style={{ width: '100%', height: '100%' }}>
+                        <MapWrapper />
+                    </div>
+                );
+            };
+            const MoveMapButton = () => {
+                const [mapInstance] = React.useContext(MapContext);
+
+                const setInitialCenter = React.useCallback(() => {
+                    if (mapInstance) {
+                        mapInstance.setCenter([55.31878, 25.23584]);
+                    }
+                }, [mapInstance]);
+
+                return (
+                    <button style={{ padding: '4px 10px' }} onClick={setInitialCenter}>
+                        Set initial center
+                    </button>
+                );
+            };
+            const App = () => {
+                return (
+                    <div>
+                        <div style={{ padding: '0 0 6px' }}>
+                            Drag the map and then click the button <MoveMapButton />
+                        </div>
+                        <br />
+                        <div style={{ width: '100%', height: 250 }}>
+                            <MapGL />
+                        </div>
+                    </div>
+                );
+            };
+
+            ReactDOM.render(
+                <MapProvider>
+                    <App />
+                </MapProvider>,
+                document.getElementById('root'),
+            );
+        </script>
+    </body>
+</html>

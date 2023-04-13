@@ -1,0 +1,30 @@
+import { PrepareAtlasResponse, ProcessFloorResponse, ProcessTileResponse, PackRastersResponse, LoadFloorSuccessResponse, LoadFloorErrorResponse, ProcessPersonalPoiResponse } from '../../types/threads';
+import { TileCoords, PersonalPoi, StyleState } from '../../types';
+import { Int64 } from '../../utils/structures/int64';
+import { WorkerContext } from '../../utils/thread/types';
+import { Gltf } from './gltf/types';
+export declare type AbortTileRequest = (key: string) => void;
+export declare type FetchTrafficTile = (data: {
+    coords: TileCoords;
+    tileServer: string;
+    tileProtocol: string;
+    regionIds: number[];
+    timestamp: number;
+}) => Promise<void>;
+export declare type DeleteTrafficTile = (key: string) => void;
+export declare type AbortTrafficTileRequest = (key: string) => void;
+export declare type GenerateTrafficTile = ({ coords, pixelRatio, styleState, styleId, sourceId, }: {
+    coords: TileCoords;
+    pixelRatio: number;
+    styleState: StyleState;
+    styleId: number;
+    sourceId: number;
+}) => ProcessTileResponse;
+export declare type GenerateFloor = (floorId: string, regionId: number, pixelRatio: number, floorIndex: number, selectedIds: Int64[], styleId: number, styleState: StyleState, sourceId: number, mobileSdkMode: boolean) => ProcessFloorResponse;
+export declare type GeneratePersonalPoi = (pois: PersonalPoi[], regionId: number, metatileHash: number, pixelRatio: number, selectedIds: Int64[], styleId: number, styleState: StyleState, sourceId: number) => ProcessPersonalPoiResponse | undefined;
+export declare type LoadFloor = (floorId: string, floorsUrl: string) => Promise<LoadFloorErrorResponse | LoadFloorSuccessResponse>;
+export declare type PackRasters = (dimensions: Uint16Array) => PackRastersResponse;
+export declare type AppendHiddenObjectIds = (ids: Int64[]) => void;
+export declare type PrepareAtlas = (url: string) => Promise<PrepareAtlasResponse | undefined>;
+export declare type LoadModel = (styleId: number, modelIndex: number) => Promise<Gltf | undefined>;
+export default function parser(context: WorkerContext): void;

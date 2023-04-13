@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <title>MapGL API</title>
+        <style>
+            html,
+            body,
+            #map {
+                margin: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+
+            #stats {
+                display: none;
+                position: absolute;
+                top: 0;
+                right: 60px;
+                background: rgba(255, 255, 255, 0.7);
+                max-height: calc(100% - 100px);
+                overflow-y: auto;
+            }
+
+            .dg .property-name {
+                width: 50% !important;
+            }
+
+            .dg .c {
+                width: 50% !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+        <div id="stats">
+            <table>
+                <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>Название</td>
+                        <td>Тайлов</td>
+                    </tr>
+                </thead>
+                <tbody id="mods"></tbody>
+            </table>
+        </div>
+        <script src="../index.js"></script>
+        <script src="initDemo.js"></script>
+    </body>
+</html>

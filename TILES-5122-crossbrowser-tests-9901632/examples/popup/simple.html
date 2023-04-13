@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>2GIS Map API</title>
+        <meta name="description" content="Popup simple example" />
+        <style>
+            html,
+            body,
+            #container {
+                margin: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+            .popup {
+                position: absolute;
+                transform: translate(-50%, -100%);
+                display: flex;
+                flex-direction: column;
+                min-width: 200px;
+            }
+            .popup-content {
+                padding: 5px;
+                border-radius: 4px;
+                background: #fff;
+                box-shadow: 0 1px 2px 0 rgba(38, 38, 38, 0.2);
+            }
+            .popup-tip {
+                width: 0px;
+                height: 0px;
+                align-self: center;
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-top: 10px solid #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container"></div>
+        <script src="https://mapgl.2gis.com/api/js"></script>
+        <script>
+            const map = new mapgl.Map('container', {
+                center: [55.31878, 25.23584],
+                zoom: 13,
+                key: '042b5b75-f847-4f2a-b695-b5f58adc9dfd',
+            });
+
+            const popup = new mapgl.HtmlMarker(map, {
+                coordinates: [55.31878, 25.23584],
+                html: `<div class="popup">
+                    <div class="popup-content">
+                        This is a text of the popup
+                    </div>
+                    <div class="popup-tip"></div>
+                </div> `,
+            });
+        </script>
+    </body>
+</html>

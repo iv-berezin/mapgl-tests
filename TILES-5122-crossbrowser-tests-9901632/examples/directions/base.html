@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>2GIS Map API</title>
+        <meta name="description" content="MapGL API directions example" />
+        <style>
+            html,
+            body,
+            #container {
+                margin: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+            #reset {
+                padding: 4px 10px;
+                background: #00a81f;
+                border-radius: 4px;
+                box-shadow: 0 1px 3px 0 rgba(38, 38, 38, 0.5);
+                border: none;
+                color: #fff;
+                font-size: 12px;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container"></div>
+        <script src="https://mapgl.2gis.com/api/js"></script>
+        <script src="https://unpkg.com/@2gis/mapgl-directions@^1/dist/directions.js"></script>
+        <script>
+            const map = new mapgl.Map('container', {
+                center: [55.31878, 25.23584],
+                zoom: 13,
+                key: '042b5b75-f847-4f2a-b695-b5f58adc9dfd',
+            });
+
+            const directions = new mapgl.Directions(map, {
+                // This key can be used for demo purpose only!
+                // You can get your own key on http://partner.api.2gis.ru/
+                directionsApiKey: 'rubfpx2151',
+            });
+            const markers = [];
+
+            let firstPoint;
+            let secondPoint;
+            // A current selecting point
+            let selecting = 'a';
+
+            const controlsHtml = `<button id="reset">Reset points</button> `;
+            new mapgl.Control(map, controlsHtml, {
+                position: 'topLeft',
+            });
+            const resetButton = document.getElementById('reset');
+
+            resetButton.addEventListener('click', function () {
+                selecting = 'a';
+                firstPoint = undefined;
+                secondPoint = undefined;
+                directions.clear();
+            });
+
+            map.on('click', (e) => {
+                const coords = e.lngLat;
+
+                if (selecting != 'end') {
+                    // Just to visualize selected points, before the route is done
+                    markers.push(
+                        new mapgl.Marker(map, {
+                            coordinates: coords,
+                            icon: 'https://mapgl.2gis.com/api/examples/dotMarker.svg',
+                        }),
+                    );
+                }
+
+                if (selecting === 'a') {
+                    firstPoint = coords;
+                    selecting = 'b';
+                } else if (selecting === 'b') {
+                    secondPoint = coords;
+                    selecting = 'end';
+                }
+
+                // If all points are selected — we can draw the route
+                if (firstPoint && secondPoint) {
+                    directions.carRoute({
+                        points: [firstPoint, secondPoint],
+                    });
+                    markers.forEach((m) => {
+                        m.destroy();
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

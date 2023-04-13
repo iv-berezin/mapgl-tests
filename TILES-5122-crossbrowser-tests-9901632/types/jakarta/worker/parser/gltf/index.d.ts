@@ -1,0 +1,1 @@
+export { fetchGltf } from './loader';

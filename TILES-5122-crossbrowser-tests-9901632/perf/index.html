@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="MobileOptimized" content="1000" />
+        <meta name="HandheldFriendly" content="true" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+        <title>Jakarta Performance</title>
+        <style>
+            html,
+            body {
+                margin: 0;
+                font-family: monospace;
+            }
+            #log {
+                white-space: pre;
+            }
+        </style>
+    </head>
+    <body>
+        <ul>
+            <li><a href="?parser">Parser</a></li>
+            <li><a href="?labeling">Labeling</a></li>
+        </ul>
+        <div id="log"></div>
+        <script>
+            (function () {
+                function getTestName() {
+                    if (location.search.length) {
+                        return location.search.slice(1);
+                    }
+                }
+
+                function loadScript(name, cb) {
+                    var script = document.createElement('script');
+                    script.onload = cb || function () {};
+                    script.src = './' + name + '.js';
+                    document.head.appendChild(script);
+                }
+
+                var logElement = document.getElementById('log');
+                window.log = function (msg) {
+                    logElement.innerHTML += msg + '\n';
+                };
+
+                var name = getTestName();
+                if (name) {
+                    loadScript(name);
+                } else {
+                    log('Invalid test name');
+                }
+            })();
+        </script>
+    </body>
+</html>

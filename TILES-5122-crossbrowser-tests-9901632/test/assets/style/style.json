@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "псевдоночная тема для MapGL JS API", 
+  "background": {
+      "color": "#1C2429"
+  },
+  "layers": [
+    ],
+  "icons": {},
+  "labelingGroups": {}
+} 

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>2GIS Map API</title>
+        <meta name="description" content="Car route geometry example" />
+        <style>
+            html,
+            body,
+            #container {
+                margin: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container"></div>
+        <script src="https://mapgl.2gis.com/api/js"></script>
+        <script>
+            const map = new mapgl.Map('container', {
+                center: [55.30095449435502, 25.26873501453329],
+                zoom: 17,
+                key: '042b5b75-f847-4f2a-b695-b5f58adc9dfd',
+            });
+
+            const segments = [
+                {
+                    color: '#e84646',
+                    label: 'A',
+                    coords: [
+                        [55.29970489, 25.26853913],
+                        [55.2994345, 25.26920691],
+                        [55.29950714, 25.26936478],
+                    ],
+                },
+                {
+                    color: '#e3e340',
+                    coords: [
+                        [55.29950714, 25.26936478],
+                        [55.30124581, 25.26959538],
+                        [55.30141272, 25.26965618],
+                        [55.30191503, 25.26896923],
+                    ],
+                },
+                {
+                    color: '#43e843',
+                    label: 'B',
+                    coords: [
+                        [55.30191503, 25.26896923],
+                        [55.3020634, 25.26892939],
+                        [55.30233927, 25.26823968],
+                    ],
+                },
+            ];
+
+            segments.forEach((segment, i) => {
+                const zIndex = segments.length - 1 - i;
+                new mapgl.Polyline(map, {
+                    coordinates: segment.coords,
+                    width: 10,
+                    color: segment.color,
+                    width2: 14,
+                    color2: '#ffffff',
+                    zIndex,
+                });
+
+                if (segment.label) {
+                    const isFirstPoint = i === 0;
+                    const lastPointIndex = segment.coords.length - 1;
+                    const coords = isFirstPoint
+                        ? segment.coords[0]
+                        : segment.coords[lastPointIndex];
+
+                    new mapgl.CircleMarker(map, {
+                        coordinates: coords,
+                        radius: 16,
+                        color: '#0088ff',
+                        strokeWidth: 2,
+                        strokeColor: '#ffffff',
+                        zIndex: isFirstPoint ? 5 : 3,
+                    });
+
+                    new mapgl.Label(map, {
+                        coordinates: coords,
+                        text: segment.label,
+                        fontSize: 14,
+                        color: '#ffffff',
+                        zIndex: isFirstPoint ? 6 : 4,
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
